@@ -1,5 +1,9 @@
 package com.self.scs
 
+import java.io.{FileInputStream, FileNotFoundException, FileOutputStream}
+import java.nio.file.Path
+
+import scala.io.Source
 import scala.util.Random
 import scala.util.control.{BreakControl, Breaks}
 
@@ -7,9 +11,10 @@ import scala.util.control.{BreakControl, Breaks}
   * @author hasee
   */
 
+class Test_one
 object Test_one {
   def main(args: Array[String]): Unit = {
-    getMatchValue(3)
+    fileInAndOut()
   }
   //s来从字符串中进行取值计算
   def getValueFromS(): Unit ={
@@ -198,6 +203,93 @@ object Test_one {
       case  str:String=>"hellow"
     }
   }
+
+  //scala中通过使用一Some和一None  来实现scala中的Option的模式匹配；
+  def getOption(s:Any):Option[Int]={
+    s match {
+      case 3=>Some(3)
+      case default=>None
+    }
+  }
+
+  //scala中通过样例类来实现模式case的匹配过程：
+  trait Animal
+  case class Cat(name: String) extends Animal
+  case class Dog(name: String) extends Animal
+  def caseclass(s: Any): Unit = {
+    s match {
+      case x: Cat => println("猫的名字是 " + x.name)
+      case d: Dog => println("dog'name is " + d.name)
+    }
+  }
+
+  //case中设置匹配数据的if守卫：
+  def testCaseIf(s:Any): Unit ={
+    s match {
+      case  a if a ==1 =>println("a's value is "+a)
+      case b if b.getClass==classOf[String]=>println("b's class is String class")
+      case c if c.getClass==classOf[Cat]=>println("c's class is Cat")
+    }
+  }
+
+  //scala中抛出异常的时候，大多时候是catch，即捕获而不是去throw，下面是catch exception的时候的举例：
+  def catchException(): Unit ={
+    try{
+      var a=3
+      println(a)
+    }catch {
+        case e:Exception=> e.printStackTrace()
+    }
+  }
+
+  //当需要和java交互，或者需要将异常向外进行抛的时候的解决@throws 加载方法的上来实现：
+  @throws
+  def throwExc(): Unit = {
+    try {
+      var ins = Source.fromFile("path")
+    } catch  {
+      case a: Exception => throw a
+    }
+  }
+/*
+* 在这里进行一个介绍，当使用scala中的异常来进行处理的时候，在scala中通常是，将exception直接catch住然后进行处理的
+* 但是如果需要将exception 捉住之后，然后向调用这个的方法进行抛出的时候，可以通过在这个方法的脑袋上
+* 使用一个@throws  然后将方法中catch住的异常抛出即可。
+* */
+  //这里是对于上面的方法的一个调用，测试被抛出的异常：
+  def  testException(): Unit ={
+    try{
+    throwExc()
+    }catch {
+      case e:FileNotFoundException=>{
+        println("当前路径下没有找到，需要的文件")
+      }
+    }
+  }
+
+  //scala中的通过输入和输出流来进行对于文件的一个读取和写的操作：
+  def fileInAndOut(): Unit ={
+    var in=None:Option[FileInputStream]
+    var out=None:Option[FileOutputStream]
+    try {
+      in=Some(new FileInputStream("G:\\workBonc\\mulity_models\\mvn_scala\\ReadMe.txt"))
+      out=Some(new FileOutputStream("G:\\workBonc\\mulity_models\\mvn_scala\\out.txt"))
+      var c=0
+      while ({c=in.get.read();c>0}){
+        println(c)
+        out.get.write(c)
+      }
+    } catch {
+      case e:Exception=>println()
+    }finally {
+      if(in.isDefined){
+        in.get.close()
+      }
+      if (out.isDefined)
+      out.get.close()
+    }
+  }
+
 
 
 
