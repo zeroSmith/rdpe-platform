@@ -1,11 +1,10 @@
 package com.self.scs
 
 import java.io.{FileInputStream, FileNotFoundException, FileOutputStream}
-import java.nio.file.Path
 
 import scala.io.Source
 import scala.util.Random
-import scala.util.control.{BreakControl, Breaks}
+import scala.util.control.Breaks
 
 /**
   * @author hasee
@@ -14,7 +13,15 @@ import scala.util.control.{BreakControl, Breaks}
 class Test_one
 object Test_one {
   def main(args: Array[String]): Unit = {
-    fileInAndOut()
+    whilelist("s".length>0,println("s"))
+  }
+
+  //scala中通过首先一个匿名的函数来实现一个对于whileList的方式的实现：
+  def whilelist(f: => Boolean ,ff: =>Unit): Unit ={
+    if(f){//通过对于两个匿名的方法来进行调用，
+      //当第一个函数的返回值是true的时候，来进行对于第二个匿名函数的调用。
+      ff
+    }
   }
   //s来从字符串中进行取值计算
   def getValueFromS(): Unit ={
@@ -289,6 +296,9 @@ object Test_one {
       out.get.close()
     }
   }
+
+
+
 
 
 
