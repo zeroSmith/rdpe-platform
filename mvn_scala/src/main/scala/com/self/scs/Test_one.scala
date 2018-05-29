@@ -9,7 +9,7 @@ import scala.util.control.{BreakControl, Breaks}
 
 object Test_one {
   def main(args: Array[String]): Unit = {
-    explainBreak()
+    getMatchValue(3)
   }
   //s来从字符串中进行取值计算
   def getValueFromS(): Unit ={
@@ -145,4 +145,65 @@ object Test_one {
       }
     }
   }
+
+  //在scala中if实现一个三目表达式来实现取值：
+  def getIf(): Unit ={
+    var flag=8
+    var s=if(flag>2) flag else 23//通过
+  }
+
+  //仿照java中switch来在scala中实现case的模式匹配：(这里实现的是一个具体的值的匹配)
+  def caseMatch(): Unit ={
+    var cs=3
+    var newValue=cs match {
+      case 1=>1
+      case 2=>2
+      case  _ => 12
+    }
+    println(newValue)
+  }
+
+  //scala 中通过模式匹配一个变量 的类型：（这里实现的是一个类型的匹配）
+  def matchCase(s:Any): Unit ={
+    s match {
+      case s:Int=>println("this var is int")
+      case f:Float=>println("this var is float")
+      case p:person=>println("this var is person")
+      case _=>println("this var is any type not any real type")
+    }
+  }
+
+  //scala中可以通过匹配多个字段用  "|"  符号来实现：
+
+
+  //这里有一点就是当变量都满足这个case中的值的时候，会首先匹配第一个值，当第一个不匹配的时候，
+  //才会去匹配第二个值。
+  def matchAny(sk:Any): Unit ={
+    sk match {
+      case 1|2|3=> println("满足1,2,3都是可以的值")
+      case s:Int=>println("是数值类型的变量")
+    }
+  }
+
+  //通过模式匹配来判断类似于java中的父子类中多态的实现：
+  /*def getFather(s:a): Unit ={
+    case a: b=>println("这个类型的具体的实现是b这个类")
+    case b: c=>println("这个类型的具体的实现是c这个类")
+  }*/
+
+  //通过模式匹配来匹配一个参数中的数值：
+  def getMatchValue(v:Any) ={
+    var ousk=v match {
+      case o: Int=>3
+      case  str:String=>"hellow"
+    }
+  }
+
+
+
 }
+
+class person(name:String)
+trait a{}
+class b extends  a
+class c extends  a
