@@ -14,12 +14,14 @@ class Test_one
 
 object Test_one {
   def main(args: Array[String]): Unit = {
-    /*val person=new Pe("h",111)//这个person的实例中有一个address，在初始化的时候是一个None的对象
-    //在进行完了初始化之后，就能通过下面的这个赋值的操作来，给默认的person实例的address来重新进行赋值操作。
-    person.address=Some(Address("china_street"))
-    person.address.foreach(add=>{
-      println(add.street)*/
-    })
+    /* val person=new Pe("h",111)//这个person的实例中有一个address，在初始化的时候是一个None的对象
+     //在进行完了初始化之后，就能通过下面的这个赋值的操作来，给默认的person实例的address来重新进行赋值操作。
+     person.address=Some(Address("china_street"))
+     person.address.foreach(add=>{
+       println(add.street)
+     })*/
+
+    val employee = new Employee("nae", 22, Address("street"))
   }
 
   //scala中通过首先一个匿名的函数来实现一个对于whileList的方式的实现：
@@ -349,7 +351,7 @@ object Test {
 //注意普通的class和case class在生成 构造方法的重载的时候是不同的，需要注意的
 
 class Pizza() {
-//可以通过
+  //可以通过
   override def toString = s"this instance'name is  ,and this instance's crustType is "
 
   var crustSize = 0
@@ -368,11 +370,13 @@ class Pizza() {
 
 //scala 中实现类似于java的单利对象的方式，是通过在class中实现一个，构造函数的private，然后在伴生对象里面提供一个访问已经实现的
 //实例的方法来得到这个实例的方法：
-class Instances private{//注意这里的将主构造器进行私有化的时候，需要在这个位置加上一个private，关键字，然后不能从外部来建立这个对象。
-  var name:String=""
-  var age:Int= 0
+class Instances private {
+  //注意这里的将主构造器进行私有化的时候，需要在这个位置加上一个private，关键字，然后不能从外部来建立这个对象。
+  var name: String = ""
+  var age: Int = 0
 }
-object  Instances{
+
+object Instances {
 
 }
 
@@ -395,13 +399,16 @@ class ChuShiHua {
 
 
 ///通常在一个类中进行初始化的时候，可以将这个字段设置成为一个None的形式，通过这个形式来判断当前的变量是存在还是不存在。
-case class Pe(name:String,pwd:Int){
-  var address =None:Option[Address]//这里在None的后边加上一个泛型的意义就是在进行初始化的时候，能够按照这个类型来进行初始化。
+case class Pe(name: String, pwd: Int) {
+  var address = None: Option[Address] //这里在None的后边加上一个泛型的意义就是在进行初始化的时候，能够按照这个类型来进行初始化。
 
 }
 
+case class Address(street: String)
 
-case class Address(street:String)
+class Employee(name: String, pwd: Int, var sec: Address) extends Pe(name: String, pwd: Int) {
+
+}
 
 
 
